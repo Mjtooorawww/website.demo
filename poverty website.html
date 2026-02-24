@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poverty - Understanding Global Issues</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .sidebar {
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            height: 70px;
+        }
+        .sidebar h2 {
+            margin: 0;
+            font-size: 28px;
+            color: white;
+            margin-right: 40px;
+            border: none;
+            padding: 0;
+        }
+        .sidebar ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+        }
+        .sidebar ul li {
+            margin: 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .sidebar ul li a:hover {
+            background-color: #3498db;
+            padding-left: 10px;
+        }
+        .main-content {
+            margin-top: 70px;
+            flex: 1;
+            padding: 0;
+            transition: margin-top 0.3s ease;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            display: none;
+        }
+        .toggle-btn:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        .corner-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .corner-toggle:hover {
+            background-color: #764ba2;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .content {
+            padding: 40px;
+        }
+        section {
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        section h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-box h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .stat-box p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .resource-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        .resource-card h3 {
+            margin-bottom: 10px;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .contact-form button {
+            background-color: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .contact-form button:hover {
+            background-color: #764ba2;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        .sidebar.closed {
+            left: -250px;
+        }
+        .main-content.expanded {
+            margin-left: 0;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                z-index: 999;
+            }
+            .toggle-btn {
+                display: block;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            header h1 {
+                font-size: 32px;
+                margin-top: 40px;
+            }
+            .content {
+                padding: 20px;
+            }
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="corner-toggle" id="cornerToggle" title="Toggle Menu">☰</button>
+    
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#facts">Facts & Statistics</a></li>
+            <li><a href="#causes">Causes</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <button class="toggle-btn" id="toggleBtn">☰ Menu</button>
+        <header id="home">
+            <h1>Understanding Poverty</h1>
+            <p>Exploring the causes, impacts, and solutions to global poverty</p>
+        </header>
+
+        <div class="content">
+            <section id="about">
+                <h2>What is Poverty?</h2>
+                <p>Poverty is the state of being extremely poor. It's a condition in which a person or community is deprived of, and lacks the essentials for a minimum standard of living, including food, clean water, basic education, healthcare, shelter, and clothing.</p>
+                <p>Extreme poverty is living on less than $1.90 a day. It affects hundreds of millions of people worldwide and remains one of the greatest challenges facing humanity.</p>
+            </section>
+
+            <section id="facts">
+                <h2>Key Facts & Statistics</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <h3>689 Million</h3>
+                        <p>People living in extreme poverty</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>1 in 10</h3>
+                        <p>People worldwide affected by poverty</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>258 Million</h3>
+                        <p>Children out of school</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>40%</h3>
+                        <p>Children affected by poverty</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="causes">
+                <h2>Main Causes of Poverty</h2>
+                <ul>
+                    <li><strong>Lack of Education:</strong> Limited access to quality education reduces employment opportunities</li>
+                    <li><strong>Unemployment:</strong> Job scarcity and lack of economic opportunities</li>
+                    <li><strong>Health Issues:</strong> Illness and lack of healthcare prevent people from working</li>
+                    <li><strong>Discrimination:</strong> Prejudice based on gender, race, or caste</li>
+                    <li><strong>Poor Governance:</strong> Corruption and inefficient government policies</li>
+                    <li><strong>Natural Disasters:</strong> Environmental factors that destroy livelihoods</li>
+                    <li><strong>Limited Access to Resources:</strong> Shortage of land, water, and basic services</li>
+                </ul>
+            </section>
+
+            <section id="solutions">
+                <h2>Solutions & How to Help</h2>
+                <p>Addressing poverty requires a multi-faceted approach involving governments, organizations, and individuals:</p>
+                <ol>
+                    <li><strong>Education:</strong> Invest in quality education and vocational training</li>
+                    <li><strong>Job Creation:</strong> Support entrepreneurship and create job opportunities</li>
+                    <li><strong>Healthcare:</strong> Provide accessible and affordable healthcare services</li>
+                    <li><strong>Social Safety Nets:</strong> Implement support programs for vulnerable populations</li>
+                    <li><strong>Microfinance:</strong> Provide small loans to help people start businesses</li>
+                    <li><strong>Infrastructure:</strong> Develop infrastructure to improve access to services</li>
+                    <li><strong>Fair Trade:</strong> Support ethical trade practices and fair wages</li>
+
+                    <section id="scratch-game">
+                        <h2>Scratch Game</h2>
+                        <iframe src="https://scratch.mit.edu/projects/1275657549/embed" width="800" height="600" allowfullscreen></iframe>
+                    </section>
+                    <section id="code.org game">
+                        <h2>Code.org Game</h2>
+                        <iframe src="https://studio.code.org/projects/applab/9066f0de-b7b1-4308-b817-45d18f7c4945/embed" width="800" height="600" allowfullscreen></iframe>
+                    </section>
+
+                </ol>
+            </section>
+
+            <section id="resources">
+                <h2>Resources & Organizations</h2>
+                <p>Organizations working to combat poverty:</p>
+                <div class="resources-grid">
+                    <a href="#" class="resource-card">
+                        <h3>World Bank</h3>
+                        <p>Global financial institution focused on ending poverty</p>
+                    </a>
+                    <a href="#" class="resource-card">
+                        <h3>United Nations Development Programme</h3>
+                        <p>Supports sustainable development and poverty reduction</p>
+                    </a>
+                    <a href="#" class="resource-card">
+                        <h3>Oxfam International</h3>
+                        <p>Works to alleviate poverty and social injustice</p>
+                    </a>
+                    <a href="#" class="resource-card">
+                        <h3>World Vision</h3>
+                        <p>International humanitarian organization helping vulnerable communities</p>
+                    </a>
+                </div>
+            </section>
+
+            <section id="contact">
+                <h2>Get in Touch</h2>
+                <p>Have questions or want to learn more? Contact us below:</p>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="text" placeholder="Subject" required>
+                    <textarea placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </section>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Understanding Poverty. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <script>
+        const toggleBtn = document.getElementById('toggleBtn');
+        const cornerToggle = document.getElementById('cornerToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('closed');
+            mainContent.classList.toggle('expanded');
+            if (toggleBtn) {
+                toggleBtn.textContent = sidebar.classList.contains('closed') ? '☰ Menu' : '✕ Close';
+            }
+            cornerToggle.textContent = sidebar.classList.contains('closed') ? '✕' : '☰';
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', toggleSidebar);
+        }
+
+        cornerToggle.addEventListener('click', toggleSidebar);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({behavior: 'smooth'});
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+    
